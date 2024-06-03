@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Klipsias</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="bulma.min.css">
+    <link rel="stylesheet" href="custom.css">
+</head>
+<body>
+    <nav th:replace="~{general.html :: navbar}"></nav>
+
+    <div class="columns is-fullheight">
+        <div th:replace="~{general.html :: sidebar}"></div>
+
+        <div class="column">
+            <div class="content p-4">
+                <h1>Personal</h1>
+
+                <p><a class="button" th:href="@{/employee/new}">Hinzufügen</a></p>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span th:if="${sort_by == 'staffNr'}">
+                                    <span th:if="${sort_asc}">↑</span><span th:unless="${sort_asc}">↓</span>
+                                </span>
+                                <span th:style="${sort_by == 'staffNr' ? 'text-decoration: underline;' : ''}">
+                                    <a th:if="${sort_by == 'staffNr'}" th:href="@{/employees(sort_by='staffNr',sort_asc=${!sort_asc})}">Personalnr.</a>
+                                    <a th:if="${sort_by != 'staffNr'}" th:href="@{/employees(sort_by='staffNr',sort_asc='true')}">Personalnr.</a>
+                                </span>
+                            </th>
+                            <th>
+                                <span th:if="${sort_by == 'firstName'}">
+                                    <span th:if="${sort_asc}">↑</span><span th:unless="${sort_asc}">↓</span>
+                                </span>
+                                <span th:style="${sort_by == 'firstName' ? 'text-decoration: underline;' : ''}">
+                                    <a th:if="${sort_by == 'firstName'}" th:href="@{/employees(sort_by='firstName',sort_asc=${!sort_asc})}">Vorname</a>
+                                    <a th:if="${sort_by != 'firstName'}" th:href="@{/employees(sort_by='firstName',sort_asc='true')}">Vorname</a>
+                                </span>
+                            </th>
+                            <th>
+                                <span th:if="${sort_by == 'lastName'}">
+                                    <span th:if="${sort_asc}">↑</span><span th:unless="${sort_asc}">↓</span>
+                                </span>
+                                <span th:style="${sort_by == 'lastName' ? 'text-decoration: underline;' : ''}">
+                                    <a th:if="${sort_by == 'lastName'}" th:href="@{/employees(sort_by='lastName',sort_asc=${!sort_asc})}">Nachname</a>
+                                    <a th:if="${sort_by != 'lastName'}" th:href="@{/employees(sort_by='lastName',sort_asc='true')}">Nachname</a>
+                                </span>
+                            </th>
+                            <th>
+                                <span th:if="${sort_by == 'isProfessor'}">
+                                    <span th:if="${sort_asc}">↑</span><span th:unless="${sort_asc}">↓</span>
+                                </span>
+                                <span th:style="${sort_by == 'isProfessor' ? 'text-decoration: underline;' : ''}">
+                                    <a th:if="${sort_by == 'isProfessor'}" th:href="@{/employees(sort_by='isProfessor',sort_asc=${!sort_asc})}">Professor?</a>
+                                    <a th:if="${sort_by != 'isProfessor'}" th:href="@{/employees(sort_by='isProfessor',sort_asc='true')}">Professor?</a>
+                                </span>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="employee: ${employees}">
+                            <td th:text="${employee.staffNr}" />
+                            <td th:text="${employee.firstName}" />
+                            <td th:text="${employee.lastName}" />
+                            <td th:text="${employee.isProfessor}"></td>
+                            <td>
+                                <div class="buttons has-addons">
+                                    <a class="button is-small" th:href="@{/employee/edit(id=${employee.id})}">Bearb.</a>
+                                    <a class="button is-small" th:href="@{/employee/delete(id=${employee.id})}">Entf.</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

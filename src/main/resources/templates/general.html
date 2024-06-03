@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Klipsias</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="bulma.min.css">
+    <link rel="stylesheet" href="custom.css">
+
+</head>
+<body>
+    <nav class="navbar is-primary" th:fragment="navbar">
+        <div class="navbar-brand">
+            <a class="navbar-item has-text-weight-bold" href="/">Klipsias</a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    OOSE SoSe 2024
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="columns is-fullheight">
+        <div class="column is-2 is-hidden-mobile has-background-light" th:fragment="sidebar">
+            <aside class="menu p-4">
+                <p class="menu-label">Administration</p>
+
+                <ul class="menu-list">
+                    <li><a class="has-background-light" th:href="@{/courses}">Kurse</a></li>
+                    <li><a class="has-background-light" th:href="@{/students}">Studierende</a></li>
+                    <li><a class="has-background-light" th:href="@{/employees}">Personal</a></li>
+                    <li><a class="has-background-light" th:href="@{/rooms}">Räume</a></li>
+                    <li><a class="has-background-light" th:href="@{/exams}">Prüfungen</a></li>
+                </ul>
+            </aside>
+        </div>
+
+        <div class="column">
+            <div class="content p-4">
+                <h1>Willkommen bei Klipsias!</h1>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
