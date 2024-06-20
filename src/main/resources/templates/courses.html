@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Klipsias</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="bulma.min.css">
+    <link rel="stylesheet" href="custom.css">
+</head>
+<body>
+    <nav th:replace="~{general.html :: navbar}"></nav>
+
+    <div class="columns is-fullheight">
+        <div th:replace="~{general.html :: sidebar}"></div>
+
+        <div class="column">
+            <div class="content p-4">
+                <h1>Kurse</h1>
+
+                <p><a class="button" th:href="@{/course/new}">Hinzufügen</a></p>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span th:if="${sort_by == 'id'}">
+                                    <span th:if="${sort_asc}">↑</span><span th:unless="${sort_asc}">↓</span>
+                                </span>
+                                <span th:style="${sort_by == 'id' ? 'text-decoration: underline;' : ''}">
+                                    <a th:if="${sort_by == 'id'}" th:href="@{/courses(sort_by='id',sort_asc=${!sort_asc})}">ID</a>
+                                    <a th:if="${sort_by != 'id'}" th:href="@{/courses(sort_by='id',sort_asc='true')}">ID</a>
+                                </span>
+                            </th>
+                            <th>
+                                <span th:if="${sort_by == 'name'}">
+                                    <span th:if="${sort_asc}">↑</span><span th:unless="${sort_asc}">↓</span>
+                                </span>
+                                <span th:style="${sort_by == 'name' ? 'text-decoration: underline;' : ''}">
+                                    <a th:if="${sort_by == 'name'}" th:href="@{/courses(sort_by='name',sort_asc=${!sort_asc})}">Name</a>
+                                    <a th:if="${sort_by != 'name'}" th:href="@{/courses(sort_by='name',sort_asc='true')}">Name</a>
+                                </span>
+                            </th>
+                            <th>
+                                <span th:if="${sort_by == 'chair'}">
+                                    <span th:if="${sort_asc}">↑</span><span th:unless="${sort_asc}">↓</span>
+                                </span>
+                                <span th:style="${sort_by == 'chair' ? 'text-decoration: underline;' : ''}">
+                                    <a th:if="${sort_by == 'chair'}" th:href="@{/courses(sort_by='chair',sort_asc=${!sort_asc})}">Lehrstuhl</a>
+                                    <a th:if="${sort_by != 'chair'}" th:href="@{/courses(sort_by='chair',sort_asc='true')}">Lehrstuhl</a>
+                                </span>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="course: ${courses}">
+                            <td th:text="${course.id}" />
+                            <td th:text="${course.name}" />
+                            <td th:text="${course.chair.name}" />
+                            <td>
+                                <div class="buttons has-addons">
+                                    <a class="button is-small" th:href="@{/course/edit(id=${course.id})}">Bearb.</a>
+                                    <a class="button is-small" th:href="@{/course/delete(id=${course.id})}">Entf.</a>
+                                    <a class="button is-small" th:href="@{/course/edit_rooms(id=${course.id})}">Räume</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
