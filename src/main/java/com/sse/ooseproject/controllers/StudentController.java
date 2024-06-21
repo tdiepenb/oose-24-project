@@ -22,13 +22,13 @@ public class StudentController {
 
     /**
      * Handles GET requests for retrieving a list of students.
-     *
+     * <p>
      * This method fetches all students from the repository, sorts them according to the specified
      * sort parameters, and adds the sorted list along with sorting parameters to the model.
      * The method then returns the name of the view to be rendered.
      *
-     * @param model The Model object that will hold the data to be displayed on the view.
-     * @param sort_by The field by which the students should be sorted.
+     * @param model    The Model object that will hold the data to be displayed on the view.
+     * @param sort_by  The field by which the students should be sorted.
      * @param sort_asc A boolean indicating whether the sorting should be in ascending order.
      * @return The name of the view to be rendered, in this case, "students".
      */
