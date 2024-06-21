@@ -8,6 +8,9 @@ public class Employee extends Person {
 
     private int staffNr;
     private boolean isProfessor;
+    @ManyToOne
+    @JoinColumn(name = "university_id")
+    private University university;
 
     public Employee() {
         super();
@@ -23,10 +26,11 @@ public class Employee extends Person {
      * @param isProfessor flag True if the Employee is a professor
      */
 
-    public Employee(String firstName, String lastName, String email, int staffNr, boolean isProfessor) {
+    public Employee(String firstName, String lastName, String email, int staffNr, boolean isProfessor, University university) {
         super(firstName, lastName, email);
         this.staffNr = staffNr;
         this.isProfessor = isProfessor;
+        this.university = university;
     }
 
     public int getStaffNr() {
@@ -37,11 +41,19 @@ public class Employee extends Person {
         this.staffNr = staffNr;
     }
 
-    public boolean getIsProfessor() {
+    public boolean isProfessor() {
         return isProfessor;
     }
 
-    public void setIsProfessor(boolean professor) {
+    public void setProfessor(boolean professor) {
         isProfessor = professor;
+    }
+
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
     }
 }
