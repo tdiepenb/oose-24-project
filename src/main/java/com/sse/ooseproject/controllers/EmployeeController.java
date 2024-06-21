@@ -23,18 +23,18 @@ public class EmployeeController {
 
     /**
      * Handles GET requests for retrieving a list of employees.
-     *
+     * <p>
      * This method fetches all employees from the repository, sorts them according to the specified
      * sort parameters, and adds the sorted list along with sorting parameters to the model.
      * The method then returns the name of the view to be rendered.
      *
-     * @param model The Model object that will hold the data to be displayed on the view.
-     * @param sort_by The field by which the employees should be sorted.
+     * @param model    The Model object that will hold the data to be displayed on the view.
+     * @param sort_by  The field by which the employees should be sorted.
      * @param sort_asc A boolean indicating whether the sorting should be in ascending order.
      * @return The name of the view to be rendered, in this case, "employees".
      */
     @GetMapping("/employees")
-    public String employees(Model model, @RequestParam String sort_by, @RequestParam Boolean sort_asc) {
+    public String employees(Model model, @RequestParam(defaultValue = "firstName") String sort_by, @RequestParam(defaultValue = "true") Boolean sort_asc) {
         Sort.Direction sortDirection;
         if (sort_asc) {
             sortDirection = Sort.Direction.ASC;
