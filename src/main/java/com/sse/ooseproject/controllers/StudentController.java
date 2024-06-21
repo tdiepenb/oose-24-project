@@ -33,7 +33,7 @@ public class StudentController {
      * @return The name of the view to be rendered, in this case, "students".
      */
     @GetMapping("/students")
-    public String students(Model model, @RequestParam String sort_by, @RequestParam Boolean sort_asc) {
+    public String students(Model model, @RequestParam(defaultValue = "firstName") String sort_by, @RequestParam(defaultValue = "true") Boolean sort_asc) {
         Sort.Direction sortDirection;
         if (sort_asc) {
             sortDirection = Sort.Direction.ASC;

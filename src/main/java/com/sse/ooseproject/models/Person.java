@@ -12,7 +12,7 @@ public abstract class Person {
 
     private String firstName;
     private String lastName;
-    private String emailAddress;
+    private String email;
 
     /**
      * A Person object. Spring requires an empty constructor. Do not change this but rather implement another
@@ -24,14 +24,14 @@ public abstract class Person {
     /**
      * Constructor of the Person class
      *
-     * @param firstName    The first name of the Person
-     * @param lastName     The last name of the Person
-     * @param emailAddress The e-Mail address of the Person
+     * @param firstName The first name of the Person
+     * @param lastName  The last name of the Person
+     * @param email     The e-Mail address of the Person
      */
-    public Person(String firstName, String lastName, String emailAddress) {
+    public Person(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailAddress = emailAddress;
+        this.email = email;
     }
 
 
@@ -60,10 +60,10 @@ public abstract class Person {
     }
 
     public String getEmailAddress() {
-        return emailAddress;
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmailAddress(String email) {
+        this.email = email;
     }
 }
