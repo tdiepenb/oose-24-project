@@ -23,9 +23,9 @@ public class StudentController {
     @GetMapping("/students")
     public String students(Model model, @RequestParam String sort_by, @RequestParam Boolean sort_asc) {
         Sort.Direction sortDirection;
-        if(sort_asc){
+        if (sort_asc) {
             sortDirection = Sort.Direction.ASC;
-        }else{
+        } else {
             sortDirection = Sort.Direction.DESC;
         }
         List<Student> students = studentRepository.findAll(Sort.by(sortDirection, sort_by));

@@ -1,9 +1,7 @@
 package com.sse.ooseproject.controllers;
 
 import com.sse.ooseproject.EmployeeRepository;
-import com.sse.ooseproject.StudentRepository;
 import com.sse.ooseproject.models.Employee;
-import com.sse.ooseproject.models.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -26,9 +24,9 @@ public class EmployeeController {
     @GetMapping("/employees")
     public String employees(Model model, @RequestParam String sort_by, @RequestParam Boolean sort_asc) {
         Sort.Direction sortDirection;
-        if(sort_asc){
+        if (sort_asc) {
             sortDirection = Sort.Direction.ASC;
-        }else{
+        } else {
             sortDirection = Sort.Direction.DESC;
         }
         List<Employee> employees = employeeRepository.findAll(Sort.by(sortDirection, sort_by));
