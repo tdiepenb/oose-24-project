@@ -11,10 +11,10 @@ public class RoomOccupancy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
     private LocalDateTime occupancyTime;

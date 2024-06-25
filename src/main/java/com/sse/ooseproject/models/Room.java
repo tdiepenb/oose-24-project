@@ -16,7 +16,7 @@ public class Room {
     private String number;
     private int seats;
     private boolean isAuditorium;
-    @OneToMany
+    @OneToMany(mappedBy = "room")
     private List<RoomOccupancy> occupancies;
     @ManyToOne
     @JoinColumn(name = "building_id")

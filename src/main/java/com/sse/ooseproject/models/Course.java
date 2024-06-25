@@ -13,11 +13,11 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy="course")
     private List<RoomOccupancy> roomOccupancies;
-    @OneToMany
+    @OneToMany(mappedBy="course")
     private List<Enrollment> enrollments;
-    @OneToMany
+    @OneToMany(mappedBy="course")
     private List<TeachingShift> teachingShifts;
 
     public Course() {
