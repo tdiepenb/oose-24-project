@@ -18,6 +18,8 @@ public class Building {
     // this is missing the @JoinColumn(name = "") annotaion because neither university nor building has an appropiate column
     @ManyToOne
     private University university;
+    @OneToMany(mappedBy = "building")
+    private List<Chair> chairs;
 
     public Building() {
     }
@@ -32,6 +34,7 @@ public class Building {
         this.name = name;
         this.university = university;
         this.rooms = new ArrayList<>();
+        this.chairs = new ArrayList<>();
     }
 
     public long getId() {
@@ -64,5 +67,13 @@ public class Building {
 
     public void setUniversity(University university) {
         this.university = university;
+    }
+
+    public List<Chair> getChairs() {
+        return chairs;
+    }
+
+    public void setChairs(List<Chair> chairs) {
+        this.chairs = chairs;
     }
 }
