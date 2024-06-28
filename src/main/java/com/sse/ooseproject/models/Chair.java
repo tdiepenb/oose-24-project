@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "chair")
-public class Chair extends OrganizationalUnit{
+public class Chair extends OrganizationalUnit {
 
     @OneToOne
     @JoinColumn(name = "owner_id")
@@ -18,7 +18,7 @@ public class Chair extends OrganizationalUnit{
     @JoinColumn(name = "institute_id")
     private Institute institute;
 
-    public Chair(){
+    public Chair() {
         super();
     }
 
@@ -26,10 +26,10 @@ public class Chair extends OrganizationalUnit{
      * Constructor for chair class
      *
      * @param chairOwner owner of the chair
-     * @param building location of the chair
-     * @param institute the institute of the chair
+     * @param building   location of the chair
+     * @param institute  the institute of the chair
      */
-    public Chair(Employee chairOwner, Building building, Institute institute){
+    public Chair(Employee chairOwner, Building building, Institute institute) {
         this.chairOwner = chairOwner;
         this.building = building;
         this.institute = institute;

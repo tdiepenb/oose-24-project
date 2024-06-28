@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "institute")
-public class Institute extends OrganizationalUnit{
+public class Institute extends OrganizationalUnit {
 
     private String providesStudySubject;
     @OneToMany(mappedBy = "institute")

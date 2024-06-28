@@ -26,8 +26,8 @@ public class Employee extends Person {
      * @param email       e-Mail address of the Employee
      * @param staffNr     staff number of the Employee
      * @param isProfessor flag True if the Employee is a professor
-     * @param university university of the Employee
-     * @param ownedChair when Employee owns a chair the owned chair
+     * @param university  university of the Employee
+     * @param ownedChair  when Employee owns a chair the owned chair
      */
 
     public Employee(String firstName, String lastName, String email, int staffNr, boolean isProfessor, University university, Chair ownedChair) {
