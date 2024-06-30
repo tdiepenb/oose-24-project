@@ -11,7 +11,7 @@ public class Employee extends Person {
     @ManyToOne
     @JoinColumn(name = "university_id")
     private University university;
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "chairOwner")
     private Chair ownedChair;
 
     public Employee() {

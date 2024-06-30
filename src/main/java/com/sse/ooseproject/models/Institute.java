@@ -24,7 +24,8 @@ public class Institute extends OrganizationalUnit {
      *
      * @param providesStudySubject the provided study subject
      */
-    public Institute(String providesStudySubject) {
+    public Institute(String name, String providesStudySubject) {
+        super(name);
         this.providesStudySubject = providesStudySubject;
         this.chairs = new ArrayList<Chair>();
     }

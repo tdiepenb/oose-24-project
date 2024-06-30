@@ -29,7 +29,8 @@ public class Chair extends OrganizationalUnit {
      * @param building   location of the chair
      * @param institute  the institute of the chair
      */
-    public Chair(Employee chairOwner, Building building, Institute institute) {
+    public Chair(String name, Employee chairOwner, Building building, Institute institute) {
+        super(name);
         this.chairOwner = chairOwner;
         this.building = building;
         this.institute = institute;
