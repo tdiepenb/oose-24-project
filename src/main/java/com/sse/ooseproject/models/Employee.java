@@ -11,6 +11,11 @@ public class Employee extends Person {
     @ManyToOne
     @JoinColumn(name = "university_id")
     private University university;
+    @OneToOne(mappedBy = "chairOwner")
+    private Chair ownedChair;
+    @ManyToOne
+    @JoinColumn(name = "chair_id")
+    private Chair chair;
 
     public Employee() {
         super();
@@ -24,13 +29,18 @@ public class Employee extends Person {
      * @param email       e-Mail address of the Employee
      * @param staffNr     staff number of the Employee
      * @param isProfessor flag True if the Employee is a professor
+     * @param university  university of the Employee
+     * @param ownedChair  when Employee owns a chair the owned chair
+     * @param chair       the chair where the employee is member
      */
 
-    public Employee(String firstName, String lastName, String email, int staffNr, boolean isProfessor, University university) {
+    public Employee(String firstName, String lastName, String email, int staffNr, boolean isProfessor, University university, Chair ownedChair, Chair chair) {
         super(firstName, lastName, email);
         this.staffNr = staffNr;
         this.isProfessor = isProfessor;
         this.university = university;
+        this.ownedChair = ownedChair;
+        this.chair = chair;
     }
 
     public int getStaffNr() {
@@ -55,5 +65,21 @@ public class Employee extends Person {
 
     public void setUniversity(University university) {
         this.university = university;
+    }
+
+    public Chair getOwnedChair() {
+        return ownedChair;
+    }
+
+    public void setOwnedChair(Chair ownedChair) {
+        this.ownedChair = ownedChair;
+    }
+
+    public Chair getChair() {
+        return chair;
+    }
+
+    public void setChair(Chair chair) {
+        this.chair = chair;
     }
 }
