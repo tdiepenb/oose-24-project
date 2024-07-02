@@ -29,7 +29,7 @@ public class CourseController {
      * The method then returns the name of the view to be rendered.
      *
      * @param model    The Model object that will hold the data to be displayed on the view.
-     * @param sort_by  The field by which the employees should be sorted.
+     * @param sort_by  The field by which the courses should be sorted.
      * @param sort_asc A boolean indicating whether the sorting should be in ascending order.
      * @return The name of the view to be rendered, in this case, "courses".
      */
