@@ -1,8 +1,6 @@
 package com.sse.ooseproject.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,9 @@ public class Institute extends OrganizationalUnit {
     private String providesStudySubject;
     @OneToMany(mappedBy = "institute")
     private List<Chair> chairs;
+    @ManyToOne
+    @JoinColumn(name = "university_id")
+    private University university;
 
     public Institute() {
         super();
@@ -22,12 +23,15 @@ public class Institute extends OrganizationalUnit {
     /**
      * Constructor for Institute class
      *
+     * @param name                 the name of the institute
      * @param providesStudySubject the provided study subject
+     * @param university           the university of the institute
      */
-    public Institute(String name, String providesStudySubject) {
+    public Institute(String name, String providesStudySubject, University university) {
         super(name);
         this.providesStudySubject = providesStudySubject;
         this.chairs = new ArrayList<Chair>();
+        this.university = university;
     }
 
     public String getProvidesStudySubject() {
@@ -44,5 +48,13 @@ public class Institute extends OrganizationalUnit {
 
     public void setChairs(List<Chair> chairs) {
         this.chairs = chairs;
+    }
+
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
     }
 }

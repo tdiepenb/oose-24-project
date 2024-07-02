@@ -21,6 +21,10 @@ public class University {
     private List<Student> students;
     @OneToMany(mappedBy = "university")
     private List<Employee> employees;
+    @OneToMany(mappedBy = "university")
+    private List<Chair> chairs;
+    @OneToMany(mappedBy = "university")
+    private List<Institute> institutes;
 
     /**
      * Default constructor for the University class.
@@ -39,6 +43,8 @@ public class University {
         this.buildings = new ArrayList<>();
         this.students = new ArrayList<>();
         this.employees = new ArrayList<>();
+        this.chairs = new ArrayList<>();
+        this.institutes = new ArrayList<>();
     }
 
     public long getId() {
@@ -79,5 +85,21 @@ public class University {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public List<Chair> getChairs() {
+        return chairs;
+    }
+
+    public void setChairs(List<Chair> chairs) {
+        this.chairs = chairs;
+    }
+
+    public List<Institute> getInstitutes() {
+        return institutes;
+    }
+
+    public void setInstitutes(List<Institute> institutes) {
+        this.institutes = institutes;
     }
 }

@@ -13,12 +13,15 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private List<RoomOccupancy> roomOccupancies;
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private List<Enrollment> enrollments;
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private List<TeachingShift> teachingShifts;
+    @ManyToOne
+    @JoinColumn(name = "chair_id")
+    private Chair chair;
 
     public Course() {
     }
@@ -26,13 +29,15 @@ public class Course {
     /**
      * Constructor for the Course class that initializes the course with a name.
      *
-     * @param name the name of the course
+     * @param name  the name of the course
+     * @param chair the chair of the course
      */
-    public Course(String name) {
+    public Course(String name, Chair chair) {
         this.name = name;
         this.roomOccupancies = new ArrayList<>();
         this.enrollments = new ArrayList<>();
         this.teachingShifts = new ArrayList<>();
+        this.chair = chair;
     }
 
     public long getId() {
@@ -73,5 +78,13 @@ public class Course {
 
     public void setTeachingShifts(List<TeachingShift> teachingShifts) {
         this.teachingShifts = teachingShifts;
+    }
+
+    public Chair getChair() {
+        return chair;
+    }
+
+    public void setChair(Chair chair) {
+        this.chair = chair;
     }
 }
