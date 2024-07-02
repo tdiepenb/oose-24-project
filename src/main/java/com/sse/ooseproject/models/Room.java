@@ -69,8 +69,8 @@ public class Room {
         return isAuditorium;
     }
 
-    public void setAuditorium(boolean auditorium) {
-        isAuditorium = auditorium;
+    public void setAuditorium(boolean isAuditorium) {
+        this.isAuditorium = isAuditorium;
     }
 
     public List<RoomOccupancy> getOccupancies() {
