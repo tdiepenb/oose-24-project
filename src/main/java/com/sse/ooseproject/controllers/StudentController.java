@@ -2,6 +2,7 @@ package com.sse.ooseproject.controllers;
 
 import com.sse.ooseproject.InstituteRepository;
 import com.sse.ooseproject.StudentRepository;
+import com.sse.ooseproject.StudentValidationException;
 import com.sse.ooseproject.StudentValidator;
 import com.sse.ooseproject.models.Student;
 import com.sse.ooseproject.models.Institute;
@@ -19,12 +20,14 @@ public class StudentController {
 
     private final StudentRepository studentRepository;
     private final InstituteRepository instituteRepository;
-    private final StudentValidator studentValidator = new StudentValidator();
+    private final StudentValidator validator;
+
 
     @Autowired
     public StudentController(StudentRepository studentRepository, InstituteRepository instituteRepository) {
         this.studentRepository = studentRepository;
         this.instituteRepository = instituteRepository;
+        this.validator = new StudentValidator(studentRepository, instituteRepository);
     }
 
     /**
@@ -76,9 +79,7 @@ public class StudentController {
         List<String> studySubjects = new ArrayList<>();
 
         // add the provided study subject from each institute to the list of available study subjects
-        institutes.forEach((institute) -> {
-            studySubjects.add(institute.getProvidesStudySubject());
-        });
+        institutes.forEach((institute) -> studySubjects.add(institute.getProvidesStudySubject()));
 
         // sort the studySubjects in Alphabetical order
         studySubjects.sort(String::compareTo);
@@ -86,6 +87,57 @@ public class StudentController {
         model.addAttribute("student", newStudent);
         model.addAttribute("page_type", pageType);
         model.addAttribute("study_subjects", studySubjects);
+
+        return "edit_student";
+    }
+
+
+    /**
+     * Handles POST requests for creating a new student.
+     * <p>
+     * This method validates the input student using the validator. If validation is successfully the student is saved
+     * to the database, otherwise a StudentValidationException is returned by the validator which we catch and set the
+     * Model attributes accordingly.
+     *
+     * @param model   The Model object that will hold the data to be displayed on the view.
+     * @param student The student object to be created
+     * @return The name of the view to be rendered, in this case, "edit_student".
+     */
+    @PostMapping("/student/new")
+    public String addStudent(Model model, @ModelAttribute("student") Student student) {
+
+        String messageType = "success";
+        String message = "Successfully added the Student to the Database";
+        //setting this to a new student makes it, so we get empty fields if creating the student was successfully
+        Student newStudent = new Student();
+
+        try {
+            validator.validateStudent(student);
+            studentRepository.save(student);
+        } catch (StudentValidationException e) {
+            // setting this to the input student makes it, so that we keep the inserted values if we get an error
+            newStudent = student;
+            messageType = "error";
+            message = e.getMessage();
+        }
+
+        String pageType = "new";
+
+        // get all institutes
+        List<Institute> institutes = instituteRepository.findAll();
+        List<String> studySubjects = new ArrayList<>();
+
+        // add the provided study subject from each institute to the list of available study subjects
+        institutes.forEach((institute) -> studySubjects.add(institute.getProvidesStudySubject()));
+
+        // sort the studySubjects in Alphabetical order
+        studySubjects.sort(String::compareTo);
+
+        model.addAttribute("student", newStudent);
+        model.addAttribute("page_type", pageType);
+        model.addAttribute("study_subjects", studySubjects);
+        model.addAttribute("message_type", messageType);
+        model.addAttribute("message", message);
 
         return "edit_student";
     }
