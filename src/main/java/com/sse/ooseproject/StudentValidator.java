@@ -30,14 +30,14 @@ public class StudentValidator {
      * @param student The student object to validate
      * @throws StudentValidationException a StudentValidationException with an error message
      */
-    public void validateStudent(Student student) throws StudentValidationException {
+    public boolean validateStudent(Student student) throws StudentValidationException {
 
         // check if all fields are filled
-        if (student.getFirstName() == null || student.getLastName() == null) {
+        if (student.getFirstName().isBlank() || student.getLastName().isBlank()) {
             throw new StudentValidationException("First name and last name are required");
         }
 
-        if (student.getEmail() == null) {
+        if (student.getEmail().isBlank()) {
             throw new StudentValidationException("Email is required");
         }
 
@@ -47,7 +47,7 @@ public class StudentValidator {
         }
 
         // check if matNr is valid
-        if (student.getMatNr() == 0 || student.getMatNr() < 0) {
+        if (student.getMatNr() <= 0) {
             throw new StudentValidationException("MatNr is invalid");
         }
 
@@ -66,6 +66,8 @@ public class StudentValidator {
         if (!studySubjects.contains(student.getStudySubject())) {
             throw new StudentValidationException("Study subject " + student.getStudySubject() + " does not exist");
         }
+
+        return true;
     }
 
 
@@ -77,7 +79,8 @@ public class StudentValidator {
      * @return boolean of validation status
      */
     private boolean validateEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String emailRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(emailRegex);
         return pattern.matcher(email).matches();
     }

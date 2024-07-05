@@ -112,8 +112,10 @@ public class StudentController {
         Student newStudent = new Student();
 
         try {
-            validator.validateStudent(student);
-            studentRepository.save(student);
+            boolean success = validator.validateStudent(student);
+            if (success) {
+                studentRepository.save(student);
+            }
         } catch (StudentValidationException e) {
             // setting this to the input student makes it, so that we keep the inserted values if we get an error
             newStudent = student;
