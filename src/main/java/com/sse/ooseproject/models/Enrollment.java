@@ -6,15 +6,20 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "enrollment")
 public class Enrollment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+
+    @EmbeddedId
+    private EnrollmentId id;
+
     @ManyToOne
+    @MapsId("course_id")
     @JoinColumn(name = "course_id")
     private Course course;
+
     @ManyToOne
+    @MapsId("student_id")
     @JoinColumn(name = "student_id")
     private Student student;
+
     private String semester;
 
     public Enrollment() {
@@ -23,21 +28,23 @@ public class Enrollment {
     /**
      * Constructor for the Enrollment class that initializes the enrollment with a course, student, and semester.
      *
+     * @param id       the enrollmentid of the enrollment
      * @param course   the course in which the student is enrolled
      * @param student  the student enrolled in the course
      * @param semester the semester during which the enrollment is made
      */
-    public Enrollment(Course course, Student student, String semester) {
+    public Enrollment(EnrollmentId id, Course course, Student student, String semester) {
+        this.id = id;
         this.course = course;
         this.student = student;
         this.semester = semester;
     }
 
-    public long getId() {
+    public EnrollmentId getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(EnrollmentId id) {
         this.id = id;
     }
 
