@@ -107,7 +107,11 @@ public class StudentController {
     public String addStudent(Model model, @ModelAttribute("student") Student student) {
 
         String messageType = "success";
-        String message = "Successfully added the Student to the Database";
+        String modelMessage = "Successfully added student " +
+                student.getFirstName() + " " + student.getLastName() +
+                " with MatNr: " +
+                student.getMatNr() +
+                " to the Database";
         //setting this to a new student makes it, so we get empty fields if creating the student was successfully
         Student newStudent = new Student();
 
@@ -120,7 +124,7 @@ public class StudentController {
             // setting this to the input student makes it, so that we keep the inserted values if we get an error
             newStudent = student;
             messageType = "error";
-            message = e.getMessage();
+            modelMessage = e.getMessage();
         }
 
         String pageType = "new";
@@ -139,7 +143,7 @@ public class StudentController {
         model.addAttribute("page_type", pageType);
         model.addAttribute("study_subjects", studySubjects);
         model.addAttribute("message_type", messageType);
-        model.addAttribute("message", message);
+        model.addAttribute("message", modelMessage);
 
         return "edit_student";
     }
