@@ -115,8 +115,10 @@ public class StudentController {
         //setting this to a new student makes it, so we get empty fields if creating the student was successfully
         Student newStudent = new Student();
 
+        String pageType = "new";
+
         try {
-            boolean success = validator.validateStudent(student);
+            boolean success = validator.validateStudent(student, pageType);
             if (success) {
                 studentRepository.save(student);
             }
@@ -127,7 +129,6 @@ public class StudentController {
             modelMessage = e.getMessage();
         }
 
-        String pageType = "new";
 
         // get all institutes
         List<Institute> institutes = instituteRepository.findAll();
@@ -140,6 +141,101 @@ public class StudentController {
         studySubjects.sort(String::compareTo);
 
         model.addAttribute("student", newStudent);
+        model.addAttribute("page_type", pageType);
+        model.addAttribute("study_subjects", studySubjects);
+        model.addAttribute("message_type", messageType);
+        model.addAttribute("message", modelMessage);
+
+        return "edit_student";
+    }
+
+    /**
+     * Handles GET requests for editing an existing student.
+     * <p>
+     * This method edits a student object, sets the page type to "edit",
+     * and provides a list of available study subjects. It then adds these attributes to the model
+     * and returns the name of the view to be rendered.
+     *
+     * @param id The is of the student which should be edited
+     * @param model The Model object that will hold the data to be displayed on the view.
+     * @return The name of the view to be rendered, in this case, "edit_student".
+     */
+    @GetMapping("/student/edit")
+    public String editStudent(@RequestParam("id") Long id, Model model) {
+        Student editStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        String pageType = "edit";
+
+        // get all institutes
+        List<Institute> institutes = instituteRepository.findAll();
+        List<String> studySubjects = new ArrayList<>();
+
+        // add the provided study subject from each institute to the list of available study subjects
+        institutes.forEach((institute) -> studySubjects.add(institute.getProvidesStudySubject()));
+
+        // sort the studySubjects in Alphabetical order
+        studySubjects.sort(String::compareTo);
+
+        model.addAttribute("student", editStudent);
+        model.addAttribute("page_type", pageType);
+        model.addAttribute("study_subjects", studySubjects);
+
+        return "edit_student";
+    }
+
+
+    /**
+     * Handles POST requests for editing a student.
+     * <p>
+     * This method validates the input student using the validator. If validation is successfully the edited student is saved
+     * to the database, otherwise a StudentValidationException is returned by the validator which we catch and set the
+     * Model attributes accordingly.
+     *
+     * @param model   The Model object that will hold the data to be displayed on the view.
+     * @param student The student object to be created
+     * @return The name of the view to be rendered, in this case, "edit_student".
+     */
+    @PostMapping("/student/edit")
+    public String editStudent(@RequestParam("id") Long id, Model model, @ModelAttribute("student") Student student) {
+
+        String messageType = "success";
+        String modelMessage = "Successfully edited student " +
+                student.getFirstName() + " " + student.getLastName() +
+                " with MatNr: " +
+                student.getMatNr() +
+                " to the Database";
+        //setting this to a new student makes it, so we get empty fields if creating the student was successfully
+        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+
+        String pageType = "edit";
+
+        try {
+            boolean success = validator.validateStudent(student, pageType);
+            if (success) {
+                existingStudent.setFirstName(student.getFirstName());
+                existingStudent.setLastName(student.getLastName());
+                existingStudent.setEmail(student.getEmail());
+                existingStudent.setMatNr(student.getMatNr());
+                existingStudent.setStudySubject(student.getStudySubject());
+                studentRepository.save(existingStudent);
+            }
+        } catch (StudentValidationException e) {
+            // setting this to the input student makes it, so that we keep the inserted values if we get an error
+            existingStudent = student;
+            messageType = "error";
+            modelMessage = e.getMessage();
+        }
+
+        // get all institutes
+        List<Institute> institutes = instituteRepository.findAll();
+        List<String> studySubjects = new ArrayList<>();
+
+        // add the provided study subject from each institute to the list of available study subjects
+        institutes.forEach((institute) -> studySubjects.add(institute.getProvidesStudySubject()));
+
+        // sort the studySubjects in Alphabetical order
+        studySubjects.sort(String::compareTo);
+
+        model.addAttribute("student", existingStudent);
         model.addAttribute("page_type", pageType);
         model.addAttribute("study_subjects", studySubjects);
         model.addAttribute("message_type", messageType);
