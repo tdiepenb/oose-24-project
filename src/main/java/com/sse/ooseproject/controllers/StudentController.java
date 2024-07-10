@@ -1,11 +1,7 @@
 package com.sse.ooseproject.controllers;
 
-import com.sse.ooseproject.InstituteRepository;
-import com.sse.ooseproject.StudentRepository;
-import com.sse.ooseproject.StudentValidationException;
-import com.sse.ooseproject.StudentValidator;
-import com.sse.ooseproject.models.Student;
-import com.sse.ooseproject.models.Institute;
+import com.sse.ooseproject.*;
+import com.sse.ooseproject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -21,13 +17,17 @@ public class StudentController {
     private final StudentRepository studentRepository;
     private final InstituteRepository instituteRepository;
     private final StudentValidator validator;
+    private final EnrollmentRepository enrollmentRepository;
+    private final CourseRepository courseRepository;
 
 
     @Autowired
-    public StudentController(StudentRepository studentRepository, InstituteRepository instituteRepository) {
+    public StudentController(StudentRepository studentRepository, InstituteRepository instituteRepository, EnrollmentRepository enrollmentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
         this.instituteRepository = instituteRepository;
         this.validator = new StudentValidator(studentRepository, instituteRepository);
+        this.enrollmentRepository = enrollmentRepository;
+        this.courseRepository = courseRepository;
     }
 
     /**
@@ -242,6 +242,84 @@ public class StudentController {
         model.addAttribute("message", modelMessage);
 
         return "edit_student";
+    }
+
+    /**
+     * Handles GET requests for showing enrollments.
+     * <p>
+     * This method gets the student and all the enrollments of the given semester of this student.
+     * It gets all courses where the student can enroll based on the study subject.
+     * It then adds these attributes to the model and returns the name of the view to be rendered.
+     *
+     * @param id The id of the student
+     * @param semester the semester of the shown enrollments
+     * @param model The Model object that will hold the data to be displayed on the view.
+     * @return The name of the view to be rendered, in this case, "enrollment".
+     */
+    @GetMapping("/student/enroll")
+    public String viewEnrollments(@RequestParam("id") Long id, @RequestParam(defaultValue = "2024 Spring") String semester, Model model) {
+
+        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentIdAndSemester(id, semester);
+
+        //get courses of the institute with the respective study subject
+        Institute institute = instituteRepository.findByProvidesStudySubject(student.getStudySubject());
+        List<Chair> chairsOfInstitute = institute.getChairs();
+        List<Course> courses = new ArrayList<>();
+        for (Chair chair : chairsOfInstitute) {
+            courses.addAll(chair.getCourses());
+        }
+
+        model.addAttribute("student", student);
+        model.addAttribute("enrollments", enrollments);
+        model.addAttribute("semester", semester);
+        model.addAttribute("courses", courses);
+
+        return "enrollment";
+    }
+
+    /**
+     * Handles GET requests for creating a new enrollment for given student, course and semester.
+     * <p>
+     * This method gets the student and the course and creates an enrollment for the given semester.
+     * It then saves the created enrollment and opens the enrollment view through the previous endpoints function.
+     *
+     * @param student_id The id of the student
+     * @param course_id The id of the course
+     * @param semester the given semester
+     * @return The name of the view to be rendered, in this case, "enrollment".
+     */
+    @GetMapping("/enrollment/enroll")
+    public String createEnrollment(@RequestParam("student_id") Long student_id, @RequestParam("course_id") Long course_id, @RequestParam("semester") String semester) {
+
+        Student student = studentRepository.findById(student_id).orElseThrow(() -> new RuntimeException("Student not found"));
+        Course course = courseRepository.findById(course_id).orElseThrow(() -> new RuntimeException("Course not found"));
+
+        EnrollmentId enrollmentId = new EnrollmentId(course_id, student_id);
+        Enrollment enrollment = new Enrollment(enrollmentId, course, student, semester);
+
+        enrollmentRepository.save(enrollment);
+
+        return "redirect:/student/enroll?id=" + student_id + "&semester=" + semester;
+    }
+
+    /**
+     * Handles GET requests for creating a new enrollment for given student, course and semester.
+     * <p>
+     * This method gets the student and the course and creates an enrollment for the given semester.
+     * It then saves the created enrollment and opens the enrollment view through the previous endpoints function.
+     *
+     * @param student_id The id of the student
+     * @param course_id The id of the course
+     * @param semester the given semester
+     * @return The name of the view to be rendered, in this case, "enrollment".
+     */
+    @GetMapping("/enrollment/delete")
+    public String deleteEnrollment(@RequestParam("student_id") Long student_id, @RequestParam("course_id") Long course_id, @RequestParam("semester") String semester) {
+
+        enrollmentRepository.deleteByStudentIdAndCourseIdAndSemester(course_id, student_id, semester);
+
+        return "redirect:/student/enroll?id=" + student_id + "&semester=" + semester;
     }
 
 }
