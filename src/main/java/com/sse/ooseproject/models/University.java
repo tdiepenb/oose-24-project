@@ -15,14 +15,19 @@ public class University {
     private long id;
 
     private String name;
+
     @OneToMany
     private List<Building> buildings;
+
     @OneToMany(mappedBy = "university")
     private List<Student> students;
+
     @OneToMany(mappedBy = "university")
     private List<Employee> employees;
+
     @OneToMany(mappedBy = "university")
     private List<Chair> chairs;
+
     @OneToMany(mappedBy = "university")
     private List<Institute> institutes;
 

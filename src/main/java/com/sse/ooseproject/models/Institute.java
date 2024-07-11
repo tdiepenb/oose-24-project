@@ -10,8 +10,10 @@ import java.util.List;
 public class Institute extends OrganizationalUnit {
 
     private String providesStudySubject;
+
     @OneToMany(mappedBy = "institute")
     private List<Chair> chairs;
+
     @ManyToOne
     @JoinColumn(name = "university_id")
     private University university;

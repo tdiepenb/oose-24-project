@@ -51,7 +51,7 @@ public class StudentValidator {
             throw new StudentValidationException("MatNr is invalid");
         }
 
-        if(pageType.equals("new")){
+        if (pageType.equals("new")) {
             // check if student with this matNr already exists
             Student existingStudent = studentRepository.findByMatNr(student.getMatNr());
 

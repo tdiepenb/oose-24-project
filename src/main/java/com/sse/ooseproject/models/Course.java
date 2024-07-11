@@ -12,13 +12,18 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     @OneToMany(mappedBy = "course")
     private List<RoomOccupancy> roomOccupancies;
+
     @OneToMany(mappedBy = "course")
     private List<Enrollment> enrollments;
+
     @OneToMany(mappedBy = "course")
     private List<TeachingShift> teachingShifts;
+
     @ManyToOne
     @JoinColumn(name = "chair_id")
     private Chair chair;

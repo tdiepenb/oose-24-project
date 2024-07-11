@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 public class Student extends Person {
     // Note: This class does not need its own id attribute as that will be derived.
     private int matNr;
+
     private String studySubject;
+
     @ManyToOne
     @JoinColumn(name = "university_id")
     private University university;

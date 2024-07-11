@@ -7,12 +7,16 @@ import jakarta.persistence.*;
 public class Employee extends Person {
 
     private int staffNr;
+
     private boolean isProfessor;
+
     @ManyToOne
     @JoinColumn(name = "university_id")
     private University university;
+
     @OneToOne(mappedBy = "chairOwner")
     private Chair ownedChair;
+
     @ManyToOne
     @JoinColumn(name = "chair_id")
     private Chair chair;

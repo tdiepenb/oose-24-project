@@ -156,7 +156,7 @@ public class StudentController {
      * and provides a list of available study subjects. It then adds these attributes to the model
      * and returns the name of the view to be rendered.
      *
-     * @param id The is of the student which should be edited
+     * @param id    The is of the student which should be edited
      * @param model The Model object that will hold the data to be displayed on the view.
      * @return The name of the view to be rendered, in this case, "edit_student".
      */
@@ -251,9 +251,9 @@ public class StudentController {
      * It gets all courses where the student can enroll based on the study subject.
      * It then adds these attributes to the model and returns the name of the view to be rendered.
      *
-     * @param id The id of the student
+     * @param id       The id of the student
      * @param semester the semester of the shown enrollments
-     * @param model The Model object that will hold the data to be displayed on the view.
+     * @param model    The Model object that will hold the data to be displayed on the view.
      * @return The name of the view to be rendered, in this case, "enrollment".
      */
     @GetMapping("/student/enroll")
@@ -285,8 +285,8 @@ public class StudentController {
      * It then saves the created enrollment and opens the enrollment view through the previous endpoints function.
      *
      * @param student_id The id of the student
-     * @param course_id The id of the course
-     * @param semester the given semester
+     * @param course_id  The id of the course
+     * @param semester   the given semester
      * @return The name of the view to be rendered, in this case, "enrollment".
      */
     @GetMapping("/enrollment/enroll")
@@ -310,8 +310,8 @@ public class StudentController {
      * It then saves the created enrollment and opens the enrollment view through the previous endpoints function.
      *
      * @param student_id The id of the student
-     * @param course_id The id of the course
-     * @param semester the given semester
+     * @param course_id  The id of the course
+     * @param semester   the given semester
      * @return The name of the view to be rendered, in this case, "enrollment".
      */
     @GetMapping("/enrollment/delete")

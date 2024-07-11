@@ -8,6 +8,7 @@ public class EnrollmentId {
 
     @JoinColumn(name = "course_id")
     private long course_id;
+
     @JoinColumn(name = "student_id")
     private long student_id;
 

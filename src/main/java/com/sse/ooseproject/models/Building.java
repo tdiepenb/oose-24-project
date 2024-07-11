@@ -12,12 +12,16 @@ public class Building {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     @OneToMany(mappedBy = "building")
     private List<Room> rooms;
+
     // this is missing the @JoinColumn(name = "") annotaion because neither university nor building has an appropiate column
     @ManyToOne
     private University university;
+
     @OneToMany(mappedBy = "building")
     private List<Chair> chairs;
 
