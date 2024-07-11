@@ -315,9 +315,10 @@ public class StudentController {
      * @return The name of the view to be rendered, in this case, "enrollment".
      */
     @GetMapping("/enrollment/delete")
-    public String deleteEnrollment(@RequestParam("student_id") Long student_id, @RequestParam("course_id") Long course_id, @RequestParam("semester") String semester) {
+    public String deleteEnrollment(@RequestParam("student_id") long student_id, @RequestParam("course_id") long course_id, @RequestParam("semester") String semester) {
 
-        enrollmentRepository.deleteByStudentIdAndCourseIdAndSemester(course_id, student_id, semester);
+        Enrollment enrollment = enrollmentRepository.findByStudentIdAndCourseIdAndSemester(student_id, course_id, semester);
+        enrollmentRepository.deleteById(enrollment.getId());
 
         return "redirect:/student/enroll?id=" + student_id + "&semester=" + semester;
     }

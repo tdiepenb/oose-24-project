@@ -1,6 +1,7 @@
 package com.sse.ooseproject;
 
 import com.sse.ooseproject.models.Enrollment;
+import com.sse.ooseproject.models.EnrollmentId;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,8 +16,13 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Enrollment e WHERE e.id.course_id = :course_id AND e.id.student_id = :student_id AND e.semester = :semester")
-    void deleteByStudentIdAndCourseIdAndSemester(@Param("student_id") long student_id, @Param("course_id") long course_id, @Param("semester") String semester);
+    void deleteByStudentIdAndCourseId(Long student_id, Long course_id);
 
     List<Enrollment> findByStudentIdAndSemester(Long id, String semester);
+
+    Enrollment findByStudentIdAndCourseIdAndSemester(Long student_id, Long course_id, String semester);
+
+    @Modifying
+    @Transactional
+    void deleteById(EnrollmentId enrollment_id);
 }

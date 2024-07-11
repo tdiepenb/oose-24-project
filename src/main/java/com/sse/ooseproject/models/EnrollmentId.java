@@ -1,16 +1,15 @@
 package com.sse.ooseproject.models;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.JoinColumn;
 
 @Embeddable
 public class EnrollmentId {
 
     @JoinColumn(name = "course_id")
-    private Long course_id;
+    private long course_id;
     @JoinColumn(name = "student_id")
-    private Long student_id;
+    private long student_id;
 
     public EnrollmentId() {
     }
