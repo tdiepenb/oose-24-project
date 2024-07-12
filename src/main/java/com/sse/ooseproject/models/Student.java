@@ -1,13 +1,18 @@
 package com.sse.ooseproject.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "student")
 public class Student extends Person {
     // Note: This class does not need its own id attribute as that will be derived.
     private int matNr;
+
     private String studySubject;
+
     @ManyToOne
     @JoinColumn(name = "university_id")
     private University university;

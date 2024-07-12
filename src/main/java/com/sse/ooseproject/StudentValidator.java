@@ -30,7 +30,7 @@ public class StudentValidator {
      * @param student The student object to validate
      * @throws StudentValidationException a StudentValidationException with an error message
      */
-    public boolean validateStudent(Student student) throws StudentValidationException {
+    public boolean validateStudent(Student student, String pageType) throws StudentValidationException {
 
         // check if all fields are filled
         if (student.getFirstName().isBlank() || student.getLastName().isBlank()) {
@@ -51,12 +51,15 @@ public class StudentValidator {
             throw new StudentValidationException("MatNr is invalid");
         }
 
-        // check if student with this matNr already exists
-        Student existingStudent = studentRepository.findByMatNr(student.getMatNr());
+        if (pageType.equals("new")) {
+            // check if student with this matNr already exists
+            Student existingStudent = studentRepository.findByMatNr(student.getMatNr());
 
-        if (existingStudent != null) {
-            throw new StudentValidationException("Student with MatNr " + student.getMatNr() + " already exists");
+            if (existingStudent != null) {
+                throw new StudentValidationException("Student with MatNr " + student.getMatNr() + " already exists");
+            }
         }
+
 
         // check if study subject exists
         List<Institute> institutes = instituteRepository.findAll();
