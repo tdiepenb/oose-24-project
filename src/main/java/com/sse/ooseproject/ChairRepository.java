@@ -1,11 +1,11 @@
 package com.sse.ooseproject;
 
-import com.sse.ooseproject.models.Student;
+import com.sse.ooseproject.models.Chair;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface ChairRepository extends JpaRepository<Chair, Long> {
 
-    Student findByMatNr(int matNr);
+    Chair findByName(String name);
 }
