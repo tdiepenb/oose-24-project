@@ -290,15 +290,19 @@ public class StudentController {
      * @return The name of the view to be rendered, in this case, "enrollment".
      */
     @GetMapping("/enrollment/enroll")
-    public String createEnrollment(@RequestParam("student_id") Long student_id, @RequestParam("course_id") Long course_id, @RequestParam("semester") String semester) {
+    public String createEnrollment(@RequestParam("student_id") Long student_id, @RequestParam(value = "course_id", required = false) Long course_id, @RequestParam("semester") String semester) {
 
         Student student = studentRepository.findById(student_id).orElseThrow(() -> new RuntimeException("Student not found"));
-        Course course = courseRepository.findById(course_id).orElseThrow(() -> new RuntimeException("Course not found"));
 
-        EnrollmentId enrollmentId = new EnrollmentId(course_id, student_id);
-        Enrollment enrollment = new Enrollment(enrollmentId, course, student, semester);
+        if (course_id != null) {
+            Course course = courseRepository.findById(course_id).orElseThrow(() -> new RuntimeException("Course not found"));
 
-        enrollmentRepository.save(enrollment);
+            EnrollmentId enrollmentId = new EnrollmentId(course_id, student_id);
+            Enrollment enrollment = new Enrollment(enrollmentId, course, student, semester);
+
+            enrollmentRepository.save(enrollment);
+        }
+
 
         return "redirect:/student/enroll?id=" + student_id + "&semester=" + semester;
     }
