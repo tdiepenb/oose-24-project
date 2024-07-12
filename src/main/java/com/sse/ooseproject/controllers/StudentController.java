@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +159,7 @@ public class StudentController {
      * and provides a list of available study subjects. It then adds these attributes to the model
      * and returns the name of the view to be rendered.
      *
-     * @param id    The is of the student which should be edited
+     * @param id    The id of the student which will be edited
      * @param model The Model object that will hold the data to be displayed on the view.
      * @return The name of the view to be rendered, in this case, "edit_student".
      */
@@ -190,6 +193,7 @@ public class StudentController {
      * to the database, otherwise a StudentValidationException is returned by the validator which we catch and set the
      * Model attributes accordingly.
      *
+     * @param id      The id of the student which will be edited
      * @param model   The Model object that will hold the data to be displayed on the view.
      * @param student The student object to be created
      * @return The name of the view to be rendered, in this case, "edit_student".
@@ -203,7 +207,7 @@ public class StudentController {
                 " with MatNr: " +
                 student.getMatNr() +
                 " to the Database";
-        //setting this to a new student makes it, so we get empty fields if creating the student was successfully
+
         Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
 
         String pageType = "edit";
