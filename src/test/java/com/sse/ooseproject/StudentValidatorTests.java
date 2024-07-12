@@ -40,7 +40,8 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(null);
 
         Student student = new Student("Max", "Mustermann", "mmuster@university.de", 123, "Mathematics", university);
-        assertTrue(studentValidator.validateStudent(student));
+        String pageType = "new";
+        assertTrue(studentValidator.validateStudent(student, pageType));
     }
 
     @ParameterizedTest
@@ -51,7 +52,8 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(null);
 
         Student student = new Student(name, "Mustermann", "mmuster@university.de", 123, "Mathematics", university);
-        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student));
+        String pageType = "new";
+        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student, pageType));
 
         assertEquals("First name and last name are required", thrown.getMessage());
     }
@@ -64,7 +66,8 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(null);
 
         Student student = new Student("Max", name, "mmuster@university.de", 123, "Mathematics", university);
-        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student));
+        String pageType = "new";
+        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student, pageType));
 
         assertEquals("First name and last name are required", thrown.getMessage());
     }
@@ -77,7 +80,8 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(null);
 
         Student student = new Student("Max", "Mustermann", email, 123, "Mathematics", university);
-        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student));
+        String pageType = "new";
+        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student, pageType));
 
         assertEquals("Email is required", thrown.getMessage());
     }
@@ -90,7 +94,8 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(null);
 
         Student student = new Student("Max", "Mustermann", email, 123, "Mathematics", university);
-        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student));
+        String pageType = "new";
+        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student, pageType));
 
         assertEquals("Email is not valid", thrown.getMessage());
     }
@@ -103,7 +108,8 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(null);
 
         Student student = new Student("Max", "Mustermann", "mmuster@university.de", matNr, "Mathematics", university);
-        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student));
+        String pageType = "new";
+        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student, pageType));
 
         assertEquals("MatNr is invalid", thrown.getMessage());
     }
@@ -115,7 +121,8 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(new Student("Max", "Müller", "mmueller@university.de", 123, "Biology", university));
 
         Student student = new Student("Max", "Mustermann", "mmuster@university.de", 123, "Mathematics", university);
-        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student));
+        String pageType = "new";
+        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student, pageType));
 
         assertEquals("Student with MatNr " + student.getMatNr() + " already exists", thrown.getMessage());
     }
@@ -127,9 +134,22 @@ public class StudentValidatorTests {
         Mockito.when(studentRepository.findByMatNr(123)).thenReturn(null);
 
         Student student = new Student("Max", "Mustermann", "mmuster@university.de", 123, "International Relations", university);
-        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student));
+        String pageType = "new";
+        StudentValidationException thrown = assertThrows(StudentValidationException.class, () -> studentValidator.validateStudent(student, pageType));
 
         assertEquals("Study subject " + student.getStudySubject() + " does not exist", thrown.getMessage());
+    }
+
+    @Test
+    @DisplayName("Testing editing a student")
+    public void testEditStudent() throws StudentValidationException {
+        Mockito.when(instituteRepository.findAll()).thenReturn(institutes);
+        Mockito.when(studentRepository.findByMatNr(123)).thenReturn(new Student("Peter", "Mustermann", "mmuster@university.de", 123, "Mathematics", university));
+
+        Student student = new Student("Max", "Mustermann", "mmuster@university.de", 123, "Mathematics", university);
+        String pageType = "edit";
+
+        assertTrue(studentValidator.validateStudent(student, pageType));
     }
 
 
